@@ -17,6 +17,18 @@ services:
     volumes:
       - postgres:/var/lib/postgresql
 
+  postgres-init:
+    container_name: cifra-k-backend-postgres-init
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: [ "sh", "/.postgres/init.sh" ]
+    env_file: .env
+    image: postgis/postgis:18-3.6
+    platform: linux/amd64
+    volumes:
+      - ./.postgres:/.postgres
+
 volumes:
   postgres:
     name: cifra-k-postgres
