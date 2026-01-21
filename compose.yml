@@ -1,6 +1,25 @@
 name: cifra-k-backend
 
 services:
+  django:
+    build: .
+    command: > 
+      sh -c "
+        python manage.py migrate --noinput &&
+        python manage.py createsuperuser --noinput || echo 'Superuser already exists.' &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    container_name: cifra-k-backend-django
+    depends_on:
+      postgres-init:
+        condition: service_completed_successfully
+    env_file: .env
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    volumes:
+      - ./app:/app
+
   postgres:
     container_name: cifra-k-backend-postgres
     env_file: .env
