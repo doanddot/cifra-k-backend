@@ -1,29 +1,58 @@
 name: cifra-k-backend
 
 services:
+  celery:
+    build: .
+    command: celery -A project worker --beat --loglevel=info
+    container_name: cifra-k-backend-celery
+    env_file: .env
+    depends_on:
+      django-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    image: cifra-k-backend-python
+    restart: unless-stopped
+    volumes:
+      - ./.celery:/srv/celery
+      - ./.media:/srv/media
+      - ./app:/app
+
   django:
     build: .
-    command: > 
-      sh -c "
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: cifra-k-backend-django
+    depends_on:
+      django-init:
+        condition: service_completed_successfully
+    env_file: .env
+    image: cifra-k-backend-python
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    volumes:
+      - ./.media:/srv/media
+      - ./app:/app
+
+  django-init:
+    build: .
+    command: sh -c "
         python manage.py migrate admin --noinput &&
         python manage.py migrate auth --noinput &&
         python manage.py migrate contenttypes --noinput &&
         python manage.py migrate sessions --noinput &&
         python manage.py createsuperuser --noinput || echo 'Superuser already exists.' &&
-        python manage.py migrate app --noinput &&
-        python manage.py runserver 0.0.0.0:8000
+        python manage.py migrate app --noinput
       "
-    container_name: cifra-k-backend-django
+    container_name: cifra-k-backend-django-init
     depends_on:
       postgres-init:
         condition: service_completed_successfully
     env_file: .env
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
+    image: cifra-k-backend-python
     volumes:
-      - ./app:/app
       - ./.media:/srv/media
+      - ./app:/app
 
   postgres:
     container_name: cifra-k-backend-postgres
@@ -52,6 +81,18 @@ services:
     platform: linux/amd64
     volumes:
       - ./.postgres:/.postgres
+
+  redis:
+    container_name: cifra-k-backend-redis
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    image: redis:8.4.0-alpine
+    restart: unless-stopped
 
 volumes:
   postgres:

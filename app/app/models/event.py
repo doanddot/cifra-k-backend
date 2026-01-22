@@ -1,6 +1,7 @@
 from PIL import Image
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
@@ -27,6 +28,10 @@ class Event(models.Model):
         validators = [MinValueValidator(0), MaxValueValidator(25)]
     )
     status = models.CharField(max_length=9, choices=EventStatus.choices, default=EventStatus.DRAFT, help_text='Статус')
+
+    def clean(self):
+        if self._state.adding and self.status == EventStatus.DRAFT:
+            raise ValidationError("Нельзя создавать событие сразу со статусом 'published'")
 
     def save(self):
         super().save()

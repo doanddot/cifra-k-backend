@@ -143,3 +143,23 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True
 }
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Krasnoyarsk'
+CELERY_BEAT_SCHEDULE = {
+    'publish-events-every-minute': {
+        'task': 'app.tasks.publish_scheduled_events',
+        'schedule': 60.0,
+    },
+    'update-venue-weather-every-hour': {
+        'task': 'app.tasks.update_venue_weather',
+        'schedule': 3600.0,
+    },
+}
+CELERY_BEAT_SCHEDULE_FILENAME = "/srv/celery/celerybeat-schedule"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

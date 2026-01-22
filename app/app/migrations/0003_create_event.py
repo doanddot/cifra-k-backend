@@ -17,26 +17,26 @@ def seed_events(apps, schema_editor):
     venues = list(Venue.objects.all())
 
     events = [
-        {"name": "Музыкальный фестиваль", "description": "Большой музыкальный фестиваль под открытым небом", "rating": 20, "status": "published", "venue": venues[0]},
+        {"name": "Музыкальный фестиваль", "description": "Большой музыкальный фестиваль под открытым небом", "rating": 20, "status": "draft", "venue": venues[0]},
         {"name": "Бизнес-конференция", "description": "Конференция для предпринимателей", "rating": 18, "status": "draft", "venue": venues[1]},
-        {"name": "Выставка технологий", "description": "Современные IT и стартапы", "rating": 22, "status": "published", "venue": venues[2]},
-        {"name": "IT Meetup", "description": "Встреча разработчиков", "rating": 17, "status": "published", "venue": venues[5]},
+        {"name": "Выставка технологий", "description": "Современные IT и стартапы", "rating": 22, "status": "draft", "venue": venues[2]},
+        {"name": "IT Meetup", "description": "Встреча разработчиков", "rating": 17, "status": "draft", "venue": venues[5]},
         {"name": "Startup Pitch Day", "description": "Презентации стартапов инвесторам", "rating": 19, "status": "draft", "venue": venues[6]},
-        {"name": "Джазовый вечер", "description": "Живой джаз", "rating": 21, "status": "published", "venue": venues[8]},
+        {"name": "Джазовый вечер", "description": "Живой джаз", "rating": 21, "status": "draft", "venue": venues[8]},
         {"name": "Маркетинговый форум", "description": "Форум по digital-маркетингу", "rating": 16, "status": "draft", "venue": venues[3]},
-        {"name": "Киноночь", "description": "Фильмы под открытым небом", "rating": 23, "status": "published", "venue": venues[7]},
+        {"name": "Киноночь", "description": "Фильмы под открытым небом", "rating": 23, "status": "draft", "venue": venues[7]},
         {"name": "Образовательный семинар", "description": "Интенсив для специалистов", "rating": 15, "status": "draft", "venue": venues[1]},
-        {"name": "Фестиваль еды", "description": "Фудкорты и street food", "rating": 24, "status": "published", "venue": venues[9]},
-        {"name": "Научная конференция", "description": "Последние научные исследования", "rating": 18, "status": "published", "venue": venues[5]},
+        {"name": "Фестиваль еды", "description": "Фудкорты и street food", "rating": 24, "status": "draft", "venue": venues[9]},
+        {"name": "Научная конференция", "description": "Последние научные исследования", "rating": 18, "status": "draft", "venue": venues[5]},
         {"name": "Геймдев митап", "description": "Разработка игр", "rating": 19, "status": "draft", "venue": venues[2]},
-        {"name": "Книжная ярмарка", "description": "Презентации книг и авторы", "rating": 16, "status": "published", "venue": venues[0]},
+        {"name": "Книжная ярмарка", "description": "Презентации книг и авторы", "rating": 16, "status": "draft", "venue": venues[0]},
         {"name": "HR форум", "description": "Управление персоналом", "rating": 17, "status": "draft", "venue": venues[4]},
-        {"name": "Музыкальный батл", "description": "Соревнование групп", "rating": 20, "status": "published", "venue": venues[8]},
-        {"name": "Digital Expo", "description": "Выставка цифровых решений", "rating": 21, "status": "published", "venue": venues[3]},
+        {"name": "Музыкальный батл", "description": "Соревнование групп", "rating": 20, "status": "draft", "venue": venues[8]},
+        {"name": "Digital Expo", "description": "Выставка цифровых решений", "rating": 21, "status": "draft", "venue": venues[3]},
         {"name": "Кулинарный мастер-класс", "description": "Готовим с шефом", "rating": 22, "status": "draft", "venue": venues[4]},
-        {"name": "Фестиваль науки", "description": "Наука для всех", "rating": 23, "status": "published", "venue": venues[6]},
+        {"name": "Фестиваль науки", "description": "Наука для всех", "rating": 23, "status": "draft", "venue": venues[6]},
         {"name": "Архитектурный форум", "description": "Современная архитектура", "rating": 18, "status": "draft", "venue": venues[7]},
-        {"name": "Концерт классической музыки", "description": "Оркестр и солисты", "rating": 25, "status": "published", "venue": venues[1]},
+        {"name": "Концерт классической музыки", "description": "Оркестр и солисты", "rating": 25, "status": "draft", "venue": venues[1]},
     ]
 
     for idx, data in enumerate(events):
@@ -50,7 +50,7 @@ def seed_events(apps, schema_editor):
             published_at=now() - timedelta(days=idx),
             start_at=now() + timedelta(days=idx + 1),
             end_at=now() + timedelta(days=idx + 1, hours=3),
-            thumbnail="events/placeholder.jpg",
+            thumbnail="placeholder.jpg",
         )
 
 

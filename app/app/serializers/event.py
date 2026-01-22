@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from app.models import Event, Venue, EventImage
+from app.models import EventStatus, Event, Venue, EventImage
 
 from .venue import VenueSerializer
 
@@ -24,6 +24,7 @@ class EventSerializer(serializers.ModelSerializer):
     author = EventAuthorSerializer(read_only=True)
     images = EventImageSerializer(many=True, read_only=True)
     new_images = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
+    status = serializers.CharField(read_only=True)
     venue = VenueSerializer(read_only=True)
     venue_id = serializers.PrimaryKeyRelatedField(queryset=Venue.objects.all(), source='venue', write_only=True)
 
