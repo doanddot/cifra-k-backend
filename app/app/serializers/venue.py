@@ -2,7 +2,7 @@ from drf_spectacular.utils import extend_schema_field
 from django.contrib.gis.geos.point import Point
 from rest_framework import serializers
 
-from app.models import Venue
+from app.models import Venue, VenueWeather
 
 
 class VenueLocationSerializer(serializers.Serializer):
@@ -25,8 +25,15 @@ class VenueLocationField(serializers.Field):
             raise serializers.ValidationError("Location must be {'lat': float, 'lng': float }")
 
 
+class VenueWeatherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VenueWeather
+        fields = '__all__'
+
+
 class VenueSerializer(serializers.ModelSerializer):
     location = VenueLocationField()
+    weather = VenueWeatherSerializer(read_only=True)
 
     class Meta:
         model = Venue
