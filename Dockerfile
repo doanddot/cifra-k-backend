@@ -4,7 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && \
-    apt-get install -y libpq-dev gcc python3-dev build-essential && \
+    apt-get install -y libpq-dev gcc python3-dev build-essential binutils libproj-dev gdal-bin && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
