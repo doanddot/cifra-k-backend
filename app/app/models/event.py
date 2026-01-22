@@ -35,3 +35,8 @@ class Event(models.Model):
             image = Image.open(self.thumbnail)
             image.thumbnail((min(image.size), 200))
             image.save(self.thumbnail.path)
+
+
+class EventImage(models.Model):
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField()
