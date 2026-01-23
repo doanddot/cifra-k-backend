@@ -96,4 +96,4 @@ services:
 
 volumes:
   postgres:
-    name: cifra-k-postgres
+    name: cifra-k-backend-postgres
