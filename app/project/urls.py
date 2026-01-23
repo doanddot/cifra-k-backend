@@ -22,7 +22,7 @@ from django.urls import include, path
 from drf_spectacular.views import SpectacularJSONAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework import routers
 
-from app.views import EventViewSet, VenueViewSet
+from app.views import EventViewSet, VenueViewSet, EventImportView
 
 
 router = routers.DefaultRouter()
@@ -30,6 +30,8 @@ router.register(r'venues', VenueViewSet)
 router.register(r'events', EventViewSet)
 
 urlpatterns = [
+    path("events/import/", EventImportView.as_view()),
+
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
 
