@@ -33,8 +33,8 @@ class Event(models.Model):
         if self._state.adding and self.status == EventStatus.DRAFT:
             raise ValidationError("Нельзя создавать событие сразу со статусом 'published'")
 
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
         if self.thumbnail:
             image = Image.open(self.thumbnail)
