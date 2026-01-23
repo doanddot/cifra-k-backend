@@ -24,7 +24,14 @@ def update_or_create_venue_weather(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=Event)
 def event_pre_save(sender, instance, **kwargs):
-    instance._prev_status = sender.objects.get(pk=instance.pk).status
+    if instance.pk:
+        try:
+            old_status = sender.objects.get(pk=instance.pk).status
+        except sender.DoesNotExist:
+            old_status = None
+        instance._prev_status = old_status
+    else:
+        instance._prev_status = None
 
 
 @receiver(post_save, sender=Event)
